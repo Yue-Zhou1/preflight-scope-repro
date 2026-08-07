@@ -1,0 +1,9 @@
+{
+  "name": "secstant-preflight-scope-repro-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@chainlink/contracts": "1.5.0",
+    "@openzeppelin/contracts": "5.4.0"
+  }
+}
