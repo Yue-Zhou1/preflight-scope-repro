@@ -71,6 +71,44 @@ After `filesystem-validation.ts` uses
 `resolveEffectiveTargetLanguages(config)`, Go is excluded from this scoped
 build and Secstant proceeds into the Solidity Docker build.
 
+## Vulnerable-code fixtures (Python, TypeScript)
+
+`python-service/` and `typescript-service/` are separate from the Go/Rust
+scope-noise fixtures above: they are meant to actually be scanned, not
+excluded. Each route/function contains one deliberately introduced
+vulnerability, labelled inline with its CWE, so a scan has a known set of
+findings to check against.
+
+| File | CWE | Issue |
+| --- | --- | --- |
+| `python-service/app.py` | CWE-798 | Hard-coded API secret |
+| `python-service/app.py` | CWE-89 | SQL injection via f-string query |
+| `python-service/app.py` | CWE-78 | Command injection via `shell=True` |
+| `python-service/app.py` | CWE-502 | Unsafe `pickle.loads` on request body |
+| `python-service/app.py` | CWE-22 | Path traversal in file read route |
+| `python-service/app.py` | CWE-327 | MD5 used for password hashing |
+| `python-service/app.py` | CWE-489 | Flask debug mode enabled |
+| `typescript-service/src/index.ts` | CWE-798 | Hard-coded JWT signing secret |
+| `typescript-service/src/index.ts` | CWE-89 | SQL injection via string concatenation |
+| `typescript-service/src/index.ts` | CWE-78 | Command injection via `exec` |
+| `typescript-service/src/index.ts` | CWE-347 | JWT decoded without signature verification |
+| `typescript-service/src/index.ts` | CWE-22 | Path traversal in file read route |
+| `typescript-service/src/index.ts` | CWE-1321 | Prototype pollution in recursive merge |
+
+Example scope entries to scan just these fixtures:
+
+```json
+{
+  "path": "python-service/app.py"
+}
+```
+
+```json
+{
+  "path": "typescript-service/src/index.ts"
+}
+```
+
 ## Fixture invariants
 
 Run this from the repository root before pushing:

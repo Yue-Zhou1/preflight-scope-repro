@@ -3,4 +3,8 @@ contracts/out/
 contracts/broadcast/
 contracts/node_modules/
 rust-service/target/
+python-service/__pycache__/
+python-service/.venv/
+typescript-service/node_modules/
+typescript-service/dist/
 .docker-build
